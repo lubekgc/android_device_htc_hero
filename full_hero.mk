@@ -19,14 +19,10 @@
 # product configuration (apps).
 #
 
+
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 $(call inherit-product, device/htc/hero/device_hero_eu.mk)
-
-# stuff common to all HTC phones
-$(call inherit-product, device/htc/common/common.mk)
-
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full.mk)
 
 # Discard inherited values and use our own instead.
 PRODUCT_NAME := full_hero
