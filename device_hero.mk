@@ -29,6 +29,11 @@ PRODUCT_COPY_FILES += \
 # proprietary side of the device
 $(call inherit-product-if-exists, vendor/htc/hero/device_hero-vendor.mk)
 
+# No zram in kernel, so use ramzswap for compcache
+PRODUCT_COPY_FILES += \
+    device/htc/hero/prebuilt/12compcache:system/etc/init.d/12compcache \
+    device/htc/hero/prebuilt/rzscontrol:system/xbin/rzscontrol
+
 PRODUCT_PACKAGES += \
     librs_jni \
     hero-keypad.kcm \
@@ -45,9 +50,6 @@ PRODUCT_PACKAGES += \
     libOmxVidEnc \
     libmm-omxcore
 
-#Gallery 2d
-PRODUCT_PACKAGES += Gallery
-
 # Install the features available on this device.
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
@@ -55,7 +57,6 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
     frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/base/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
     frameworks/base/data/etc/android.hardware.sensor.compass.xml:system/etc/permissions/android.hardware.sensor.compass.xml \
     frameworks/base/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
     frameworks/base/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
@@ -75,74 +76,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/cyanogen/prebuilt/common/etc/apns-conf.xml:system/etc/apns-conf.xml
 
-PRODUCT_PROPERTY_OVERRIDES := \
-    keyguard.no_require_sim=true \
-    ro.media.dec.jpeg.memcap=10000000
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    rild.libpath=/system/lib/libhtc_ril.so \
-    ro.ril.hsxpa=2 \
-    ro.ril.hsupa.category=5 \
-    ro.ril.enable.a52=1 \
-    ro.ril.enable.a53=1 \
-    ro.ril.def.agps.mode=2 \
-    ro.ril.def.agps.feature=1 \
-    ro.ril.gprsclass=10 \
-    wifi.interface=tiwlan0
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    windowsmgr.max_events_per_sec= 60 \
-    windowsmgr.support_rotation_270=true
-
-# Time between scans in seconds. Keep it high to minimize battery drain.
-# This only affects the case in which there are remembered access points,
-# but none are in range.
-PRODUCT_PROPERTY_OVERRIDES += \
-    wifi.supplicant_scan_interval=45
-
-# density in DPI of the LCD of this board. This is used to scale the UI
-# appropriately. If this property is not defined, the default value is 160 dpi. 
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=160
-
-# Performences tweaks
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.execution-mode=int:jit \
-    dalvik.vm.heapsize=24m \
-    ro.compcache.default=0 \
-    persist.sys.use_dithering=0 \
-    debug.sf.hw=1
-
-# OpenGL ES 1.1-CM
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.opengles.version = 165537 \
-    ro.product.multi_touch_enabled=true
-
-# Default network type
-# 0 => WCDMA Preferred.
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.telephony.default_network=0 \
-    ro.com.google.locationfeatures=1
-
-# stagefright settings
-PRODUCT_PROPERTY_OVERRIDES += \
-    media.stagefright.enable-player=true \
-    media.stagefright.enable-meta=true \
-    media.stagefright.enable-scan=true \
-    media.stagefright.enable-http=true
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    settings.display.autobacklight=1 \
-    persist.service.mount.playsnd = 0 \
-    ro.com.google.locationfeatures = 1 \
-    ro.setupwizard.mode=OPTIONAL \
-    ro.setupwizard.enable_bypass=1 \
-    ro.media.dec.aud.wma.enabled=1 \
-    ro.media.dec.vid.wmv.enabled=1 \
-    dalvik.vm.dexopt-flags=m=y \
-    net.bt.name=Android \
-    ro.config.sync=yes
-
 # media configuration xml file
 PRODUCT_COPY_FILES += \
     device/htc/hero/media_profiles.xml:/system/etc/media_profiles.xml
@@ -156,12 +89,13 @@ endif
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
 
-KERNEL_NAME := 2.6.29.6-flykernel-12pre2
+KERNEL_NAME := 2.6.29.6-flykernel-12a
 
 PRODUCT_COPY_FILES += \
     device/htc/hero/modules/modules.dep.bb:system/lib/modules/$(KERNEL_NAME)/modules.dep.bb \
     device/htc/hero/modules/modules.order:system/lib/modules/$(KERNEL_NAME)/modules.order \
     device/htc/hero/modules/ip_gre.ko:system/lib/modules/$(KERNEL_NAME)/net/ipv4/ip_gre.ko \
+    device/htc/hero/modules/tun.ko:system/lib/modules/$(KERNEL_NAME)/net/tun.ko \
     device/htc/hero/modules/wlan.ko:system/lib/modules/$(KERNEL_NAME)/drivers/net/wireless/tiwlan1251/wlan.ko \
     device/htc/hero/modules/hid-dummy.ko:system/lib/modules/$(KERNEL_NAME)/drivers/hid/hid-dummy.ko \
     device/htc/hero/modules/ramzswap.ko:system/lib/modules/$(KERNEL_NAME)/drivers/staging/ramzswap/ramzswap.ko \
@@ -171,6 +105,3 @@ PRODUCT_COPY_FILES += \
 
 # stuff common to all HTC phones
 $(call inherit-product, device/htc/common/common.mk)
-
-$(call inherit-product, build/target/product/full.mk)
-

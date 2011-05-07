@@ -56,6 +56,9 @@ WIFI_DRIVER_FW_AP_PATH      := "/etc/wifi/Fw1251r1c.bin"
 BOARD_KERNEL_CMDLINE := no_console_suspend=1 console=null
 BOARD_KERNEL_BASE := 0x19200000
 
+#libsurfaceflinger to avoid Draw Texture Extenstion
+BOARD_AVOID_DRAW_TEXTURE_EXTENSION := true
+
 BOARD_USES_GENERIC_AUDIO := false
 
 # Use HTC USB Function Switch to enable tethering via USB
@@ -70,8 +73,6 @@ BOARD_VENDOR_USE_AKMD := akm8973
 BOARD_VENDOR_QCOM_AMSS_VERSION := 6355
 
 BOARD_USES_QCOM_HARDWARE := true
-
-BOARD_HAS_LIMITED_EGL := true
 
 TARGET_HARDWARE_3D := false
 
