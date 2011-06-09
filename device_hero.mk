@@ -24,7 +24,7 @@ PRODUCT_COPY_FILES += \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml
     
 PRODUCT_COPY_FILES += \
-    device/htc/hero/vold.fstab:system/etc/vold.fstab
+    device/htc/hero/prebuilt/vold.fstab:system/etc/vold.fstab
 
 # proprietary side of the device
 $(call inherit-product-if-exists, vendor/htc/hero/device_hero-vendor.mk)
@@ -64,13 +64,13 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
 
 PRODUCT_COPY_FILES += \
-    device/htc/hero/init.hero.rc:root/init.hero.rc \
-    device/htc/hero/ueventd.hero.rc:root/ueventd.hero.rc
+    device/htc/hero/prebuilt/init.hero.rc:root/init.hero.rc \
+    device/htc/hero/prebuilt/ueventd.hero.rc:root/ueventd.hero.rc
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
-    device/htc/hero/hero-keypad.kl:system/usr/keylayout/hero-keypad.kl \
-    device/htc/hero/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl
+    device/htc/hero/prebuilt/hero-keypad.kl:system/usr/keylayout/hero-keypad.kl \
+    device/htc/hero/prebuilt/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl
     
 # GSM APN list
 PRODUCT_COPY_FILES += \
@@ -78,7 +78,7 @@ PRODUCT_COPY_FILES += \
 
 # media configuration xml file
 PRODUCT_COPY_FILES += \
-    device/htc/hero/media_profiles.xml:/system/etc/media_profiles.xml
+    device/htc/hero/prebuilt/media_profiles.xml:/system/etc/media_profiles.xml
 
 # Kernel Targets
 ifeq ($(TARGET_PREBUILT_KERNEL),)
