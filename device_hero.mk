@@ -31,8 +31,7 @@ $(call inherit-product-if-exists, vendor/htc/hero/device_hero-vendor.mk)
 
 # No zram in kernel, so use ramzswap for compcache
 PRODUCT_COPY_FILES += \
-    device/htc/hero/prebuilt/12compcache:system/etc/init.d/12compcache \
-    device/htc/hero/prebuilt/rzscontrol:system/xbin/rzscontrol
+    device/htc/hero/prebuilt/12compcache:system/etc/init.d/12compcache
 
 PRODUCT_PACKAGES += \
     librs_jni \
@@ -48,7 +47,8 @@ PRODUCT_PACKAGES += \
     VoiceDialer \
     libOmxCore \
     libOmxVidEnc \
-    libmm-omxcore
+    libmm-omxcore \
+    rzscontrol
 
 # Install the features available on this device.
 PRODUCT_COPY_FILES += \
