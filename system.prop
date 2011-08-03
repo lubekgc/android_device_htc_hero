@@ -55,5 +55,5 @@ persist.service.mount.playsnd = 0
 
 #dalvik options (more tweaks)
 dalvik.vm.execution-mode=int:jit
-dalvik.vm.heapsize=32m
+dalvik.vm.heapsize=24m
 dalvik.vm.dexopt-flags=m=y 
