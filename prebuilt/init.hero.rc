@@ -17,7 +17,7 @@ on early-init
     write /sys/devices/virtual/net/rmnet0/timeout_suspend 5000000
     write /sys/devices/virtual/net/rmnet0/timeout 18000000
     
-on init
+on fs
 # btips DDB location
     mkdir /data/btips 0777 bluetooth bluetooth
     mkdir /data/btips/TI 0777 bluetooth bluetooth
